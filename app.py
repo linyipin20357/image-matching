@@ -3,6 +3,12 @@ import cv2
 import numpy as np
 from skimage.metrics import structural_similarity as ssim
 
+import os
+template_path = os.path.join(os.getcwd(), "template_folder", "template.jpg")
+template = cv2.imread(template_path)
+print("Reading template from:", template_path)  # 確認實際路徑
+
+
 app = Flask(__name__)
 
 def compare_images(image1, image2):
@@ -25,8 +31,6 @@ def upload():
 
     # 載入 template 圖片
     template = cv2.imread("template_folder/template.jpg")  # 請確保雲端有這個檔案
-    if template is None:
-    print("Error: Image not loaded! Check file path and permissions.")
     
     similarity = compare_images(template, image)
     threshold = 0.85  # 設定相似度門檻
