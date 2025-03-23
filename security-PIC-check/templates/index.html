@@ -3,34 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>防偽標籤比對</title>
+    <title>防偽辨識系統</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #preview { max-width: 100%; margin-top: 10px; }
+    </style>
 </head>
 <body>
-    <h2>上傳圖片進行防偽比對</h2>
-    <input type="file" id="imageUpload">
+    <h2>防偽辨識系統</h2>
+    <input type="file" id="fileInput" accept="image/*">
     <button onclick="uploadImage()">上傳並比對</button>
-    <p id="result"></p>
+    <p id="status"></p>
+    <img id="preview" style="display: none;">
 
     <script>
         function uploadImage() {
-            let fileInput = document.getElementById('imageUpload');
-            if (fileInput.files.length === 0) {
-                alert('請選擇圖片');
+            let fileInput = document.getElementById("fileInput").files[0];
+            if (!fileInput) {
+                alert("請選擇一張圖片！");
                 return;
             }
 
             let formData = new FormData();
-            formData.append("file", fileInput.files[0]);
+            formData.append("file", fileInput);
 
-            fetch('http://127.0.0.1:5000/upload', {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("preview").src = e.target.result;
+                document.getElementById("preview").style.display = "block";
+            };
+            reader.readAsDataURL(fileInput);
+
+            document.getElementById("status").innerText = "上傳中...";
+
+            fetch("http://127.0.0.1:5000/upload", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('result').innerText = data.message;
+                document.getElementById("status").innerText = data.message;
             })
-            .catch(error => console.error("上傳錯誤:", error));
+            .catch(error => {
+                console.error("錯誤:", error);
+                document.getElementById("status").innerText = "比對失敗，請稍後再試。";
+            });
         }
     </script>
 </body>
