@@ -20,7 +20,7 @@
             const formData = new FormData();
             formData.append("image", fileInput.files[0]);
 
-            fetch("https://your-flask-api.com/upload", {
+            fetch("https://image-matching-prcw.onrender.com/upload", {
                 method: "POST",
                 body: formData
             })
