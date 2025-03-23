@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防偽標籤比對</title>
+</head>
+<body>
+    <h2>上傳圖片進行防偽比對</h2>
+    <input type="file" id="imageUpload">
+    <button onclick="uploadImage()">上傳並比對</button>
+    <p id="result"></p>
+
+    <script>
+        function uploadImage() {
+            let fileInput = document.getElementById('imageUpload');
+            if (fileInput.files.length === 0) {
+                alert('請選擇圖片');
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            fetch('http://127.0.0.1:5000/upload', {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = data.message;
+            })
+            .catch(error => console.error("上傳錯誤:", error));
+        }
+    </script>
+</body>
+</html>
