@@ -25,6 +25,8 @@ def upload():
 
     # 載入 template 圖片
     template = cv2.imread("template_folder/template.jpg")  # 請確保雲端有這個檔案
+    if template is None:
+    print("Error: Image not loaded! Check file path and permissions.")
     
     similarity = compare_images(template, image)
     threshold = 0.85  # 設定相似度門檻
