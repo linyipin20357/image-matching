@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防偽辨識上傳</title>
+</head>
+<body>
+    <h2>請上傳防偽標籤圖片</h2>
+    <input type="file" id="upload" accept="image/*">
+    <button onclick="uploadImage()">上傳並辨識</button>
+    <p id="result"></p>
+    <script>
+        function uploadImage() {
+            const fileInput = document.getElementById("upload");
+            if (!fileInput.files.length) {
+                alert("請選擇圖片");
+                return;
+            }
+            const formData = new FormData();
+            formData.append("image", fileInput.files[0]);
+
+            fetch("https://your-flask-api.com/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = data.message;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("result").innerText = "上傳失敗";
+            });
+        }
+    </script>
+</body>
+</html>
