@@ -7,7 +7,7 @@ import os
 template_path = os.path.join(os.getcwd(), "template_folder", "template.jpg")
 template = cv2.imread(template_path)
 print("Reading template from:", template_path)  # 確認實際路徑
-
+print("Current Working Directory:", os.getcwd())
 
 app = Flask(__name__)
 
