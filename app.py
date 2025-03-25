@@ -4,8 +4,8 @@ import numpy as np
 from skimage.metrics import structural_similarity as ssim
 
 import os
-template_path = os.path.join(os.getcwd(), "template_folder", "template.jpg")
-print("Current Working Directory:", os.getcwd())
+# template_path = os.path.join(os.getcwd(), "template_folder", "template.jpg")
+template_path = "/absolute/path/to/template_folder/template.jpg"
 template = cv2.imread(template_path)
 print("Reading template from:", template_path)  # 確認實際路徑
 
